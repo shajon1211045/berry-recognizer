@@ -16,31 +16,30 @@
       -webkit-backdrop-filter: blur(2.2px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
-
-    /* Solid background color instead of an image */
-    body {
-      background-color: #f5f5f5; /* Light grey background color */
-    }
   </style>
+
 </head>
 
 <body class="relative">
-  <div class="absolute top-0 text-black w-[100%] space-y-4">
-    <div class="home">
+  <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
+    alt="" class="w-[100vw] h-[100vh]">
+  <div class="absolute top-0 text-white w-[100%] space-y-4">
+    <div class="home text-pink-500">
       <h1 class="text-center text-2xl font-bold">Welcome to my Berry Recognizer Web App</h1>
     </div>
 
-    <div class="recognizer text-center ">
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-        id="file_input" type="file">
+    <div class="recognizer text-center">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-red-400 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
 
-      <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto ">
+      <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
-          <div class="w-[50%] h-full glassy p-4">
-            <img id="uploadedImage" src="" alt="Uploaded Image will appear here" class="object-contain w-full h-full">
+          <div class="w-[50%] h-full glassy p-4 bg-blue-500">
+            <img
+              src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
+              alt="">
           </div>
-          <div class="w-[50%] glassy h-[37vh]">
-            <h1 id="predictedLabel" class="text-3xl font-bold mt-[23%]">Prediction Result</h1>
+          <div class="w-[50%] glassy h-[37vh] bg-purple-500">
+            <h1 class="text-3xl font-bold mt-[23%]" id="result-label"></h1>
           </div>
         </div>
       </div>
@@ -51,13 +50,17 @@
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
         async function loaded(reader) {
-          const app = await client("https://shajon-berry-recognizer.hf.space/");
+          const app = await client("https://armanul-sports-activity-recognizer.hf.space/--replicas/us1ey/");
           const response = await app.predict("/predict", [reader.result]);
           const label = response['data'][0]['label'];
-
-          // Update the image and prediction result
-          document.getElementById("uploadedImage").src = reader.result;
-          document.getElementById("predictedLabel").textContent = label;
+          document.getElementById('result-label').innerHTML = label;
+          document.getElementById('results').innerHTML = `
+            <div class="w-[50%] h-[30vh] glassy p-4 bg-blue-500">
+              <img src="${reader.result}" alt="">
+            </div>
+            <div class="w-[50%] glassy h-[30vh] bg-purple-500">
+              <h1 class="text-3xl font-bold mt-[23%]">${label}</h1>
+            </div>`;
         }
 
         function read() {
@@ -73,6 +76,8 @@
 </body>
 
 </html>
+
+
 
 
 
