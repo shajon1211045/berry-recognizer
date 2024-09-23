@@ -12,10 +12,10 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body class="text-white bg-gray-900">
   <header>
-    <nav class="fixed bg-blue-800">
-      <div class="navbar bg-blue-800 fixed">
+    <nav class="bg-blue-800 fixed w-full">
+      <div class="navbar bg-blue-800">
         <div class="flex-1">
           <a class="btn btn-ghost text-3xl text-white hover:text-red-400">Berry Recognizer.</a>
         </div>
@@ -33,48 +33,45 @@
     </nav>
   </header>
 
-  <body class="text-white bg-gray-900">
-    <div class="hero bg-gray-900 min-h-screen">
-      <img
-        src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
-        alt="">
-      <div class="hero-content text-white">
-        <div>
-          <section class="hero-section">
-            <div class="content">
-              <p>
-                This recognizer app can classify 10 different types of berries found around the globe. <br><br>
-              <p class="text-center text-pink-500">
-                The types are following:
-                <br />
-                1. Blackberry <br />
-                2. Raspberry <br />
-                3. Blueberry <br />
-                4. Strawberry <br />
-                5. Elderberry <br />
-                6. Cranberry <br />
-                7. Gooseberry <br />
-                8. Boysenberry <br />
-                9. Mulberry <br />
-                10. Cloudberry <br />
-                <button class="btn btn-outline btn-green-500 mt-8" onclick="goToPage()">Get Started</button>
-              </p>
-              </p>
-            </div>
-          </section>
-
-          <script>
-            function goToPage() {
-              location.href = "app.html";
-            }
-          </script>
-
+  <div class="hero bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+    <img
+      src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
+      alt="" class="absolute inset-0 w-full h-full object-cover">
+    <div class="relative z-10 text-center text-white">
+      <section class="hero-section">
+        <div class="content">
+          <p>
+            This recognizer app can classify 10 different types of berries found around the globe. <br><br>
+            <p class="text-pink-500">
+              The types are following:
+              <br />
+              1. Blackberry <br />
+              2. Raspberry <br />
+              3. Blueberry <br />
+              4. Strawberry <br />
+              5. Elderberry <br />
+              6. Cranberry <br />
+              7. Gooseberry <br />
+              8. Boysenberry <br />
+              9. Mulberry <br />
+              10. Cloudberry <br />
+              <button class="btn btn-outline btn-green-500 mt-8" onclick="goToPage()">Get Started</button>
+            </p>
+          </p>
         </div>
-      </div>
+      </section>
+
+      <script>
+        function goToPage() {
+          window.location.href = "app.html";
+        }
+      </script>
     </div>
-  </body>
+  </div>
+</body>
 
 </html>
+
 
 
 

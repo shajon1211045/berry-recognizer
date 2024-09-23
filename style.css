@@ -18,7 +18,7 @@ header {
   left: 0;
   width: 100%;
   padding: 15px;
-  background-color: rgba(50, 50, 50, 0.9);
+  background-color: #1e3a8a; /* Changed to a deep blue for berry theme */
   z-index: 1000;
 }
 
@@ -29,7 +29,7 @@ header {
 }
 
 .navbar .logo span {
-  color: #b22222; /* A rich berry color */
+  color: #e11d48; /* A rich berry color */
 }
 
 .navbar ul {
@@ -45,12 +45,12 @@ header {
 }
 
 .navbar ul li a:hover {
-  color: #b22222;
+  color: #e11d48; /* Berry color on hover */
 }
 
 .hero-section {
   height: 100vh;
-  background: url('https://i.ibb.co/kBPQHrX/small-fruits-pattern.jpg') repeat center center/contain; /* Updated berry-themed small fruits background */
+  background: url('https://i.ibb.co/kBPQHrX/small-fruits-pattern.jpg') repeat center center/contain; /* Berry-themed small fruits background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +74,7 @@ header {
 }
 
 .hero-section .content button {
-  background-color: #b22222; /* Berry-inspired button color */
+  background-color: #e11d48; /* Berry-inspired button color */
   color: #ffffff;
   padding: 10px 28px;
   border: none;
@@ -87,7 +87,7 @@ header {
 }
 
 .hero-section .content button:hover {
-  background-color: #8b0000; /* Darker berry shade for hover */
+  background-color: #b91c1c; /* Darker berry shade for hover */
 }
 
 .glassy {
@@ -109,7 +109,7 @@ input[type="file"] {
 }
 
 input[type="file"]::file-selector-button {
-  background-color: #b22222;
+  background-color: #e11d48; /* Berry-inspired button color */
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -117,7 +117,8 @@ input[type="file"]::file-selector-button {
 }
 
 input[type="file"]::file-selector-button:hover {
-  background-color: #8b0000;
+  background-color: #b91c1c; /* Darker berry shade for hover */
 }
+
 
 
