@@ -50,7 +50,7 @@ header {
 
 .hero-section {
   height: 100vh;
-  background: url('https://i.ibb.co/VJFMfCt/berry-background.jpg') no-repeat center center/cover; /* Updated berry-themed background */
+  background: url('https://i.ibb.co/kBPQHrX/small-fruits-pattern.jpg') repeat center center/contain; /* Updated berry-themed small fruits background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,4 +119,5 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover {
   background-color: #8b0000;
 }
+
 
