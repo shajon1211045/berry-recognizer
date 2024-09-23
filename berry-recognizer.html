@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berry Recognizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/@gradio/client@latest"></script>
+</head>
+<body>
+    <h1>Berry Type Recognizer</h1>
+
+    <!-- File input for the user to upload an image -->
+    <input id="photo" type="file" accept="image/*">
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('photo').addEventListener('change', async function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Convert the uploaded image to a blob format
+                const exampleImage = await file.arrayBuffer();
+                const imageBlob = new Blob([exampleImage], { type: file.type });
+
+                // Connect to the Hugging Face API using Gradio client
+                const client = await gradio.Client.connect("shajon/berry-recogniser");
+                
+                // Send a prediction request to the API with the uploaded image
+                const result = await client.predict("/predict", {
+                    image: imageBlob
+                });
+
+                // Display the prediction results
+                document.getElementById("results").innerHTML = `
+                    <h2>Prediction Results:</h2>
+                    <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
+
