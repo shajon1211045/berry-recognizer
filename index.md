@@ -1,11 +1,12 @@
 ---
-title : Home
-layout : page
+title: Home
+layout: page
 ---
 
-# Image recognizer 
+# Image Recognizer
+
 Can classify 10 different berry types<br/>
-The types of Berries are the following:<br/>
+The types of berries are the following:<br/>
 
 1. Blueberry 
 2. Cranberry
@@ -17,5 +18,7 @@ The types of Berries are the following:<br/>
 8. Mulberry
 9. Raspberry
 10. Strawberry
+
+[Go to the Berry Recognizer App](./app/)
 
 
