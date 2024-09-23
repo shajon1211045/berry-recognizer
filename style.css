@@ -8,7 +8,7 @@
 }
 
 body {
-  background-color: #eaeaea;
+  background-color: #f0f0f0;
   color: #2c2c2c;
 }
 
@@ -29,7 +29,7 @@ header {
 }
 
 .navbar .logo span {
-  color: #ff7f50;
+  color: #b22222; /* A rich berry color */
 }
 
 .navbar ul {
@@ -45,12 +45,12 @@ header {
 }
 
 .navbar ul li a:hover {
-  color: #ff7f50;
+  color: #b22222;
 }
 
 .hero-section {
   height: 100vh;
-  background: url('https://i.ibb.co/HDHJnYG/gradient-abstract-background.jpg') no-repeat center center/cover;
+  background: url('https://i.ibb.co/VJFMfCt/berry-background.jpg') no-repeat center center/cover; /* Updated berry-themed background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +74,7 @@ header {
 }
 
 .hero-section .content button {
-  background-color: #ff7f50;
+  background-color: #b22222; /* Berry-inspired button color */
   color: #ffffff;
   padding: 10px 28px;
   border: none;
@@ -87,7 +87,7 @@ header {
 }
 
 .hero-section .content button:hover {
-  background-color: #e06d43;
+  background-color: #8b0000; /* Darker berry shade for hover */
 }
 
 .glassy {
@@ -109,7 +109,7 @@ input[type="file"] {
 }
 
 input[type="file"]::file-selector-button {
-  background-color: #ff7f50;
+  background-color: #b22222;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -117,6 +117,6 @@ input[type="file"]::file-selector-button {
 }
 
 input[type="file"]::file-selector-button:hover {
-  background-color: #e06d43;
+  background-color: #8b0000;
 }
 
