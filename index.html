@@ -6,44 +6,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Berry Recognizer</title>
 
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="text-white bg-gray-900">
   <header>
-    <nav class="bg-blue-800 fixed w-full">
-      <div class="navbar bg-blue-800">
+    <nav class="fixed bg-blue-800">
+      <div class="navbar bg-blue-800 fixed">
         <div class="flex-1">
-          <a class="btn btn-ghost text-3xl text-white hover:text-red-400">Berry Recognizer.</a>
+          <a class="btn btn-ghost text-3xl text-white hover:text-red-400">Berry Recognizer</a>
         </div>
         <div class="flex-none">
           <ul class="menu menu-horizontal px-1">
-            <li><a href="https://www.linkedin.com/in/zahidulshajon/" target="_blank"><img style="width: 25px;"
-                  src="https://i.ibb.co/wB33bCJ/linkedin-2.png" alt=""></a></li>
-            <li><a href="https://github.com/shajon1211045" target="_blank"><img style="width: 25px;"
-                  src="https://i.ibb.co/GdKW3pQ/github-1.png" alt=""></a></li>
-            <li><a href="https://www.kaggle.com/zahidulislamshajon" target="_blank"><img style="width: 25px;"
-                  src="https://i.ibb.co/44WwRCM/4373210-kaggle-logo-logos-icon.png" alt=""></a></li>
+            <li><a href="https://www.linkedin.com/in/zahidulshajon/" target="_blank"><img style="width: 25px;" src="https://i.ibb.co/wB33bCJ/linkedin-2.png" alt=""></a></li>
+            <li><a href="https://github.com/shajon1211045" target="_blank"><img style="width: 25px;" src="https://i.ibb.co/GdKW3pQ/github-1.png" alt=""></a></li>
+            <li><a href="https://www.kaggle.com/zahidulislamshajon" target="_blank"><img style="width: 25px;" src="https://i.ibb.co/44WwRCM/4373210-kaggle-logo-logos-icon.png" alt=""></a></li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
 
-  <div class="hero bg-gray-900 min-h-screen flex flex-col items-center justify-center">
-    <img
-      src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
-      alt="" class="absolute inset-0 w-full h-full object-cover">
-    <div class="relative z-10 text-center text-white">
-      <section class="hero-section">
-        <div class="content">
-          <p>
-            This recognizer app can classify 10 different types of berries found around the globe. <br><br>
-            <p class="text-pink-500">
-              The types are following:
+  <div class="hero bg-gray-900 min-h-screen">
+    <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg" alt="">
+    <div class="hero-content text-white">
+      <div>
+        <section class="hero-section">
+          <div class="content">
+            <p>
+              This recognizer app can classify 10 different types of berries found around the globe. <br><br>
+            <p class="text-center text-pink-500">
+              The types are as follows:
               <br />
               1. Blackberry <br />
               2. Raspberry <br />
@@ -55,22 +50,24 @@
               8. Boysenberry <br />
               9. Mulberry <br />
               10. Cloudberry <br />
-              <button class="btn btn-outline btn-green-500 mt-8" onclick="goToPage()">Get Started</button>
             </p>
-          </p>
-        </div>
-      </section>
-
-      <script>
-        function goToPage() {
-          window.location.href = "app.html";
-        }
-      </script>
+            <div class="text-center mt-8">
+              <button class="btn btn-outline btn-green-500" onclick="goToPage()">Get Started</button>
+            </div>
+          </div>
+        </section>
+        <script>
+          function goToPage() {
+            window.location.href = "app.html"; // Use window.location.href for redirection
+          }
+        </script>
+      </div>
     </div>
   </div>
 </body>
 
 </html>
+
 
 
 
