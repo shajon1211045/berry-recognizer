@@ -27,12 +27,12 @@
     </div>
 
     <div class="recognizer text-center">
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-red-400 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-red-400 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
 
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4 bg-blue-500">
-            <img src="https://www.pexels.com/photo/water-droplets-on-green-leaves-3926486/" alt="" id="uploaded-image">
+            <img src="https://www.pexels.com/photo/water-droplets-on-green-leaves-3926486/" alt="">
           </div>
           <div class="w-[50%] glassy h-[37vh] bg-purple-500">
             <h1 class="text-3xl font-bold mt-[23%]" id="result-label"></h1>
@@ -43,39 +43,49 @@
       <a href="index.html" class="btn btn-outline btn-accent mt-3">Back</a>
 
       <script type="module">
-        import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
+        import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
-        async function loaded(reader) {
-          try {
-            const app = await client("https://huggingface.co/spaces/shajon/berry-recogniser");
-            const response = await app.predict("/api/predict", [reader.result]);
+        async function predictImage(file) {
+          // Connect to the Hugging Face Space using the Gradio client
+          const client = await Client.connect("shajon/berry-recogniser");
 
-            const label = response['data'][0]['label'];
-
-            // Update the result-label and display the result
-            document.getElementById('result-label').innerHTML = label;
-            document.getElementById('uploaded-image').src = reader.result; // Set the uploaded image
-          } catch (error) {
-            console.error("Error during prediction:", error);
-          }
-        }
-
-        function read() {
+          // Convert the uploaded file to a Blob for prediction
           const reader = new FileReader();
-          reader.addEventListener('load', () => loaded(reader));
-          if (file_input.files.length > 0) {
-            reader.readAsDataURL(file_input.files[0]);
-          }
+          reader.readAsDataURL(file);
+          reader.onloadend = async function () {
+            const response = await fetch(reader.result);
+            const imageBlob = await response.blob();
+
+            // Send the image to the model for prediction
+            const result = await client.predict("/predict", {
+              image: imageBlob,
+            });
+
+            // Update the UI with the result
+            const label = result.data[0].label;
+            document.getElementById('result-label').innerHTML = label;
+            document.getElementById('results').innerHTML = `
+              <div class="w-[50%] h-[30vh] glassy p-4 bg-blue-500">
+                <img src="${reader.result}" alt="Uploaded Image">
+              </div>
+              <div class="w-[50%] glassy h-[30vh] bg-purple-500">
+                <h1 class="text-3xl font-bold mt-[23%]">${label}</h1>
+              </div>`;
+          };
         }
 
-        // Listen for the file input event and trigger the prediction
-        file_input.addEventListener('input', read);
+        // Handle the image input and initiate prediction
+        document.getElementById('file_input').addEventListener('input', function () {
+          const file = this.files[0];
+          predictImage(file);
+        });
       </script>
     </div>
   </div>
 </body>
 
 </html>
+
 
 
 
