@@ -20,19 +20,19 @@
 </head>
 
 <body class="relative">
-  <img src="https://www.pexels.com/photo/close-up-photo-of-black-sand-952670/" alt="" class="w-[100vw] h-[100vh]">
+  <img src="https://www.pexels.com/photo/yellow-bokeh-photo-949587/" alt="" class="w-[100vw] h-[100vh]">
   <div class="absolute top-0 text-white w-[100%] space-y-4">
     <div class="home text-pink-500">
       <h1 class="text-center text-2xl font-bold">Welcome to my Berry Recognizer Web App</h1>
     </div>
 
     <div class="recognizer text-center">
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-red-400 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-red-400 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
 
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4 bg-blue-500">
-            <img src="https://www.pexels.com/photo/close-up-photo-of-black-sand-952670/" alt="">
+            <img src="https://www.pexels.com/photo/yellow-bokeh-photo-949587/" alt="" id="uploaded-image">
           </div>
           <div class="w-[50%] glassy h-[37vh] bg-purple-500">
             <h1 class="text-3xl font-bold mt-[23%]" id="result-label"></h1>
@@ -46,30 +46,26 @@
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
         async function loaded(reader) {
-          // Create a client instance to communicate with your Hugging Face Space
-          const app = await client("https://huggingface.co/spaces/shajon/berry-recogniser");
-          
-          // Send the uploaded image to the model for prediction
-          const response = await app.predict("/predict", [reader.result]);
+          try {
+            const app = await client("https://huggingface.co/spaces/shajon/berry-recogniser");
+            const response = await app.predict("/api/predict", [reader.result]);
 
-          // Extract the predicted label from the response
-          const label = response['data'][0]['label'];
+            const label = response['data'][0]['label'];
 
-          // Update the result-label and display the result
-          document.getElementById('result-label').innerHTML = label;
-          document.getElementById('results').innerHTML = `
-            <div class="w-[50%] h-[30vh] glassy p-4 bg-blue-500">
-              <img src="${reader.result}" alt="">
-            </div>
-            <div class="w-[50%] glassy h-[30vh] bg-purple-500">
-              <h1 class="text-3xl font-bold mt-[23%]">${label}</h1>
-            </div>`;
+            // Update the result-label and display the result
+            document.getElementById('result-label').innerHTML = label;
+            document.getElementById('uploaded-image').src = reader.result; // Set the uploaded image
+          } catch (error) {
+            console.error("Error during prediction:", error);
+          }
         }
 
         function read() {
           const reader = new FileReader();
           reader.addEventListener('load', () => loaded(reader));
-          reader.readAsDataURL(file_input.files[0]);
+          if (file_input.files.length > 0) {
+            reader.readAsDataURL(file_input.files[0]);
+          }
         }
 
         // Listen for the file input event and trigger the prediction
@@ -80,6 +76,7 @@
 </body>
 
 </html>
+
 
 
 
