@@ -17,12 +17,10 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
   </style>
-
 </head>
 
 <body class="relative">
-  <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
-    alt="" class="w-[100vw] h-[100vh]">
+  <img src="https://www.pexels.com/photo/close-up-photo-of-black-sand-952670/" alt="" class="w-[100vw] h-[100vh]">
   <div class="absolute top-0 text-white w-[100%] space-y-4">
     <div class="home text-pink-500">
       <h1 class="text-center text-2xl font-bold">Welcome to my Berry Recognizer Web App</h1>
@@ -34,9 +32,7 @@
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4 bg-blue-500">
-            <img
-              src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
-              alt="">
+            <img src="https://www.pexels.com/photo/close-up-photo-of-black-sand-952670/" alt="">
           </div>
           <div class="w-[50%] glassy h-[37vh] bg-purple-500">
             <h1 class="text-3xl font-bold mt-[23%]" id="result-label"></h1>
@@ -50,9 +46,16 @@
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
         async function loaded(reader) {
-          const app = await client("https://armanul-sports-activity-recognizer.hf.space/--replicas/us1ey/");
+          // Create a client instance to communicate with your Hugging Face Space
+          const app = await client("https://huggingface.co/spaces/shajon/berry-recogniser");
+          
+          // Send the uploaded image to the model for prediction
           const response = await app.predict("/predict", [reader.result]);
+
+          // Extract the predicted label from the response
           const label = response['data'][0]['label'];
+
+          // Update the result-label and display the result
           document.getElementById('result-label').innerHTML = label;
           document.getElementById('results').innerHTML = `
             <div class="w-[50%] h-[30vh] glassy p-4 bg-blue-500">
@@ -69,6 +72,7 @@
           reader.readAsDataURL(file_input.files[0]);
         }
 
+        // Listen for the file input event and trigger the prediction
         file_input.addEventListener('input', read);
       </script>
     </div>
@@ -76,6 +80,7 @@
 </body>
 
 </html>
+
 
 
 
