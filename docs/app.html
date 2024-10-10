@@ -42,6 +42,13 @@
     .recognizer {
       margin-top: 20px;
     }
+
+    /* Properly size the uploaded image */
+    #uploaded_image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
   </style>
 </head>
 
@@ -81,23 +88,30 @@
   </div>
 
   <script type="module">
-    import { Client, handle_file } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
+    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
     async function loaded(file) {
       const client = new Client("https://huggingface.co/spaces/shajon/berry-recogniser");
-      
-      const response = await client.predict(
-        handle_file(file), // Handle the file as required by the Gradio client
-        api_name="/predict"
-      );
 
-      const label = response['label']; // Extract label from response
+      // Read the file as a data URL (Base64 encoding)
+      const reader = new FileReader();
+      reader.onloadend = async function () {
+        const image_base64 = reader.result.split(',')[1]; // Remove the data URL header part
 
-      // Display uploaded image and label
-      const uploadedImage = document.getElementById('uploaded_image');
-      uploadedImage.src = URL.createObjectURL(file);
-      uploadedImage.style.display = 'block'; // Show the uploaded image
-      document.getElementById('result_label').textContent = label;
+        // Send the image in base64 format to the Gradio API
+        const response = await client.predict({
+          image: new Blob([image_base64], { type: 'image/jpeg' }) // Construct a Blob with the correct format
+        }, api_name="/predict");
+
+        const label = response['label']; // Extract label from response
+
+        // Display uploaded image and label
+        const uploadedImage = document.getElementById('uploaded_image');
+        uploadedImage.src = reader.result; // Display the image in base64 format
+        uploadedImage.style.display = 'block'; // Show the uploaded image
+        document.getElementById('result_label').textContent = label;
+      };
+      reader.readAsDataURL(file); // Read the file to trigger `onloadend`
     }
 
     function read() {
@@ -114,6 +128,7 @@
 </body>
 
 </html>
+
 
 
 
