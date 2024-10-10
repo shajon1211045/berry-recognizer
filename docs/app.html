@@ -10,6 +10,24 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
+    /* Ensure the body and html take up the full viewport height */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    /* Fullscreen background image */
+    .background-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1; /* Ensure the image is behind the content */
+    }
+
     /* Glassy effect */
     .glassy {
       background: rgba(255, 255, 255, 0.12);
@@ -19,13 +37,21 @@
       -webkit-backdrop-filter: blur(2.2px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
+
+    /* Center content properly */
+    .recognizer {
+      margin-top: 20px;
+    }
   </style>
 </head>
 
-<body class="relative">
+<body>
   <!-- Background Image -->
-  <img src="https://i.ibb.co.com/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" alt="Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3" border="0">
+  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" 
+       alt="Full Screen Background" 
+       class="background-image">
 
+  <!-- Content -->
   <div class="absolute top-0 text-white w-[100%] space-y-4">
     <div class="home">
       <h1 class="text-center text-2xl font-bold">Welcome to the Berry Recognizer Web App</h1>
@@ -76,6 +102,7 @@
 </body>
 
 </html>
+
 
 
 

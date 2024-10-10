@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 /* General resets and font settings */
 * {
   margin: 0;
@@ -8,12 +6,30 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   background-color: #f0f0f0;
   color: #2c2c2c;
+}
+
+/* Fullscreen background image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1; /* Ensure the image is behind all other content */
+}
+
+body {
   padding-top: 60px; /* Added padding to avoid overlap with fixed header */
 }
 
+/* Header Styling */
 header {
   position: fixed;
   top: 0;
@@ -53,7 +69,7 @@ header {
 /* Hero Section */
 .hero-section {
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e') no-repeat center center/cover; /* Direct URL to the image */
+  background: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e') no-repeat center center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,6 +157,7 @@ input[type="file"]::file-selector-button:hover {
   color: #ffffff;
   text-align: center;
 }
+
 
 
 
