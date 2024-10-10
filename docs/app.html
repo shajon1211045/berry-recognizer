@@ -11,7 +11,8 @@
 
   <style>
     /* Ensure the body and html take up the full viewport height */
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -47,8 +48,8 @@
 
 <body>
   <!-- Background Image -->
-  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" 
-       alt="Full Screen Background" 
+  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg"
+       alt="Full Screen Background"
        class="background-image">
 
   <!-- Content -->
@@ -65,7 +66,7 @@
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4">
-            <img id="uploaded_image" src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg" alt="Uploaded Image">
+            <img id="uploaded_image" src="" alt="Uploaded Image" class="max-w-full h-auto">
           </div>
           <div class="w-[50%] glassy h-[37vh]">
             <h1 id="result_label" class="text-3xl font-bold mt-[23%]">Berry Type</h1>
@@ -82,7 +83,7 @@
     import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
     async function loaded(reader) {
-      const app = await Client("https://shajon-berry-recogniser.hf.space/");
+      const app = await Client("https://huggingface.co/spaces/shajon/berry-recogniser");
       const response = await app.predict("/predict", [reader.result]);
       const label = response['data'][0]['label'];
 
@@ -92,16 +93,18 @@
     }
 
     function read() {
+      const file_input = document.getElementById('file_input');
       const reader = new FileReader();
       reader.addEventListener('load', () => loaded(reader));
       reader.readAsDataURL(file_input.files[0]);
     }
 
-    file_input.addEventListener('input', read);
+    document.getElementById('file_input').addEventListener('input', read);
   </script>
 </body>
 
 </html>
+
 
 
 
