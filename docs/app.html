@@ -11,8 +11,7 @@
 
   <style>
     /* Ensure the body and html take up the full viewport height */
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -48,8 +47,8 @@
 
 <body>
   <!-- Background Image -->
-  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg"
-       alt="Full Screen Background"
+  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" 
+       alt="Full Screen Background" 
        class="background-image">
 
   <!-- Content -->
@@ -60,13 +59,15 @@
 
     <div class="recognizer text-center">
       <!-- File Input -->
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+             id="file_input" 
+             type="file" accept="image/*">
 
       <!-- Results Section -->
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4">
-            <img id="uploaded_image" src="" alt="Uploaded Image" class="max-w-full h-auto">
+            <img id="uploaded_image" src="" alt="Uploaded Image" style="display:none;"> <!-- Initially hidden -->
           </div>
           <div class="w-[50%] glassy h-[37vh]">
             <h1 id="result_label" class="text-3xl font-bold mt-[23%]">Berry Type</h1>
@@ -83,20 +84,24 @@
     import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
     async function loaded(reader) {
-      const app = await Client("https://huggingface.co/spaces/shajon/berry-recogniser");
+      const app = await Client("https://huggingface.co/spaces/shajon/berry-recogniser/"); // Updated Hugging Face space
       const response = await app.predict("/predict", [reader.result]);
       const label = response['data'][0]['label'];
 
       // Display uploaded image and label
-      document.getElementById('uploaded_image').src = reader.result;
+      const uploadedImage = document.getElementById('uploaded_image');
+      uploadedImage.src = reader.result;
+      uploadedImage.style.display = 'block'; // Show the uploaded image
       document.getElementById('result_label').textContent = label;
     }
 
     function read() {
-      const file_input = document.getElementById('file_input');
+      const fileInput = document.getElementById('file_input');
       const reader = new FileReader();
       reader.addEventListener('load', () => loaded(reader));
-      reader.readAsDataURL(file_input.files[0]);
+      if (fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]);
+      }
     }
 
     document.getElementById('file_input').addEventListener('input', read);
@@ -104,6 +109,7 @@
 </body>
 
 </html>
+
 
 
 
