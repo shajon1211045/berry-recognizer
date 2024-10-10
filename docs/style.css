@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
+/* General resets and font settings */
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@
 body {
   background-color: #f0f0f0;
   color: #2c2c2c;
+  padding-top: 60px; /* Added padding to avoid overlap with fixed header */
 }
 
 header {
@@ -18,7 +20,7 @@ header {
   left: 0;
   width: 100%;
   padding: 15px;
-  background-color: #1e3a8a; /* Changed to a deep blue for berry theme */
+  background-color: #1e3a8a; /* Deep blue for berry theme */
   z-index: 1000;
 }
 
@@ -29,7 +31,7 @@ header {
 }
 
 .navbar .logo span {
-  color: #e11d48; /* A rich berry color */
+  color: #e11d48; /* Rich berry color */
 }
 
 .navbar ul {
@@ -48,9 +50,10 @@ header {
   color: #e11d48; /* Berry color on hover */
 }
 
+/* Hero Section */
 .hero-section {
   height: 100vh;
-  background: url('https://unsplash.com/photos/photo-of-green-fern-plant-OOE4xAnBhKo') repeat center center/contain; /* Berry-themed small fruits background */
+  background: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e') no-repeat center center/cover; /* Direct URL to the image */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,6 +93,7 @@ header {
   background-color: #b91c1c; /* Darker berry shade for hover */
 }
 
+/* Glassy Effect */
 .glassy {
   background: rgba(240, 240, 240, 0.2);
   border-radius: 10px;
@@ -99,6 +103,7 @@ header {
   border: 1px solid rgba(200, 200, 200, 0.4);
 }
 
+/* File Input Styling */
 input[type="file"] {
   color: #2c2c2c;
   padding: 10px;
@@ -119,6 +124,24 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover {
   background-color: #b91c1c; /* Darker berry shade for hover */
 }
+
+/* Utility Styles for Result Section */
+#results {
+  display: flex;
+  gap: 10px;
+}
+
+#results img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+#results h1 {
+  font-size: 2rem;
+  color: #ffffff;
+  text-align: center;
+}
+
 
 
 
