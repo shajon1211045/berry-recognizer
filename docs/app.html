@@ -91,25 +91,33 @@
     import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
     async function loaded(file) {
+      console.log("Loaded file:", file);  // Debugging log for loaded file
       const client = new Client("https://huggingface.co/spaces/shajon/berry-recogniser");
 
       // Read the file as a data URL (Base64 encoding)
       const reader = new FileReader();
       reader.onloadend = async function () {
         const image_base64 = reader.result.split(',')[1]; // Remove the data URL header part
+        console.log("Base64 Encoded Image:", image_base64);  // Log the Base64 image
 
-        // Send the image in base64 format to the Gradio API
-        const response = await client.predict({
-          image: new Blob([image_base64], { type: 'image/jpeg' }) // Construct a Blob with the correct format
-        }, api_name="/predict");
+        try {
+          // Send the image in base64 format to the Gradio API
+          const response = await client.predict({
+            image: new Blob([image_base64], { type: 'image/jpeg' }) // Construct a Blob with the correct format
+          }, api_name="/predict");
 
-        const label = response['label']; // Extract label from response
+          console.log("API Response:", response);  // Debugging log for API response
+          const label = response['label']; // Extract label from response
 
-        // Display uploaded image and label
-        const uploadedImage = document.getElementById('uploaded_image');
-        uploadedImage.src = reader.result; // Display the image in base64 format
-        uploadedImage.style.display = 'block'; // Show the uploaded image
-        document.getElementById('result_label').textContent = label;
+          // Display uploaded image and label
+          const uploadedImage = document.getElementById('uploaded_image');
+          uploadedImage.src = reader.result; // Display the image in base64 format
+          uploadedImage.style.display = 'block'; // Show the uploaded image
+          document.getElementById('result_label').textContent = label;
+
+        } catch (error) {
+          console.error("Error during prediction:", error);  // Log any errors
+        }
       };
       reader.readAsDataURL(file); // Read the file to trigger `onloadend`
     }
@@ -119,7 +127,10 @@
       const file = fileInput.files[0];
       
       if (file) {
+        console.log("File selected:", file);  // Debugging log for selected file
         loaded(file); // Call loaded with the file to handle the prediction
+      } else {
+        console.error("No file selected");  // Log error if no file selected
       }
     }
 
@@ -128,6 +139,7 @@
 </body>
 
 </html>
+
 
 
 
