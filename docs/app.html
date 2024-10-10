@@ -81,26 +81,31 @@
   </div>
 
   <script type="module">
-    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
+    import { Client, handle_file } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
-    async function loaded(reader) {
-      const app = await Client("https://huggingface.co/spaces/shajon/berry-recogniser/"); // Updated Hugging Face space
-      const response = await app.predict("/predict", [reader.result]);
-      const label = response['data'][0]['label'];
+    async function loaded(file) {
+      const client = new Client("https://huggingface.co/spaces/shajon/berry-recogniser");
+      
+      const response = await client.predict(
+        handle_file(file), // Handle the file as required by the Gradio client
+        api_name="/predict"
+      );
+
+      const label = response['label']; // Extract label from response
 
       // Display uploaded image and label
       const uploadedImage = document.getElementById('uploaded_image');
-      uploadedImage.src = reader.result;
+      uploadedImage.src = URL.createObjectURL(file);
       uploadedImage.style.display = 'block'; // Show the uploaded image
       document.getElementById('result_label').textContent = label;
     }
 
     function read() {
       const fileInput = document.getElementById('file_input');
-      const reader = new FileReader();
-      reader.addEventListener('load', () => loaded(reader));
-      if (fileInput.files[0]) {
-        reader.readAsDataURL(fileInput.files[0]);
+      const file = fileInput.files[0];
+      
+      if (file) {
+        loaded(file); // Call loaded with the file to handle the prediction
       }
     }
 
@@ -109,6 +114,7 @@
 </body>
 
 </html>
+
 
 
 
