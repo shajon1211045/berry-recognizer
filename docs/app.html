@@ -10,14 +10,12 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
-    /* Ensure the body and html take up the full viewport height */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
     }
 
-    /* Fullscreen background image */
     .background-image {
       position: absolute;
       top: 0;
@@ -25,10 +23,9 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      z-index: -1; /* Ensure the image is behind the content */
+      z-index: -1;
     }
 
-    /* Glassy effect */
     .glassy {
       background: rgba(255, 255, 255, 0.12);
       border-radius: 16px;
@@ -38,12 +35,10 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Center content properly */
     .recognizer {
       margin-top: 20px;
     }
 
-    /* Properly size the uploaded image */
     #uploaded_image {
       width: 100%;
       height: auto;
@@ -54,9 +49,7 @@
 
 <body>
   <!-- Background Image -->
-  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" 
-       alt="Full Screen Background" 
-       class="background-image">
+  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" alt="Full Screen Background" class="background-image">
 
   <!-- Content -->
   <div class="absolute top-0 text-white w-[100%] space-y-4">
@@ -66,15 +59,13 @@
 
     <div class="recognizer text-center">
       <!-- File Input -->
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
-             id="file_input" 
-             type="file" accept="image/*">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
 
       <!-- Results Section -->
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
           <div class="w-[50%] h-full glassy p-4">
-            <img id="uploaded_image" src="" alt="Uploaded Image" style="display:none;"> <!-- Initially hidden -->
+            <img id="uploaded_image" src="" alt="Uploaded Image" style="display:none;">
           </div>
           <div class="w-[50%] glassy h-[37vh]">
             <h1 id="result_label" class="text-3xl font-bold mt-[23%]">Berry Type</h1>
@@ -87,50 +78,51 @@
     </div>
   </div>
 
-  <script type="module">
-    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
-
+  <script>
     async function loaded(file) {
-      console.log("Loaded file:", file);  // Debugging log for loaded file
-      const client = new Client("https://huggingface.co/spaces/shajon/berry-recogniser");
-
-      // Read the file as a data URL (Base64 encoding)
       const reader = new FileReader();
+
       reader.onloadend = async function () {
-        const image_base64 = reader.result.split(',')[1]; // Remove the data URL header part
-        console.log("Base64 Encoded Image:", image_base64);  // Log the Base64 image
+        const imageBase64 = reader.result.split(',')[1]; // Remove base64 header
+        console.log("Base64 Image:", imageBase64); // Debugging log
 
+        // Fetch request to Hugging Face API (Replace this with actual endpoint)
         try {
-          // Send the image in base64 format to the Gradio API
-          const response = await client.predict({
-            image: new Blob([image_base64], { type: 'image/jpeg' }) // Construct a Blob with the correct format
-          }, api_name="/predict");
+          const response = await fetch('https://shajon-berry-recogniser.hf.space/api/predict', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "image": `data:image/jpeg;base64,${imageBase64}` // Send base64 encoded image
+            })
+          });
 
-          console.log("API Response:", response);  // Debugging log for API response
-          const label = response['label']; // Extract label from response
-
-          // Display uploaded image and label
-          const uploadedImage = document.getElementById('uploaded_image');
-          uploadedImage.src = reader.result; // Display the image in base64 format
-          uploadedImage.style.display = 'block'; // Show the uploaded image
-          document.getElementById('result_label').textContent = label;
-
+          const result = await response.json();
+          console.log("Prediction Result:", result); // Log the result
+          const label = result[0]?.label; // Get the label from the response
+          
+          // Display the uploaded image and result
+          document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
+          document.getElementById('uploaded_image').style.display = 'block';
+          document.getElementById('result_label').textContent = label || "No result";
         } catch (error) {
-          console.error("Error during prediction:", error);  // Log any errors
+          console.error("Error during prediction:", error); // Log any error
         }
       };
-      reader.readAsDataURL(file); // Read the file to trigger `onloadend`
+
+      reader.readAsDataURL(file); // Trigger FileReader
     }
 
     function read() {
       const fileInput = document.getElementById('file_input');
       const file = fileInput.files[0];
-      
+
       if (file) {
-        console.log("File selected:", file);  // Debugging log for selected file
-        loaded(file); // Call loaded with the file to handle the prediction
+        console.log("File selected:", file); // Debugging log
+        loaded(file); // Process the selected file
       } else {
-        console.error("No file selected");  // Log error if no file selected
+        console.error("No file selected"); // Error if no file is selected
       }
     }
 
@@ -139,6 +131,7 @@
 </body>
 
 </html>
+
 
 
 
