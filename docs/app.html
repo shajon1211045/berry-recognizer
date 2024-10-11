@@ -7,7 +7,6 @@
   <title>Berry Recognizer</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
     html, body {
@@ -85,46 +84,33 @@
     document.addEventListener("DOMContentLoaded", function () {
       const client = new Client("shajon/berry-recogniser");
 
-      async function loaded(file) {
-        const reader = new FileReader();
-
-        reader.onloadend = async function () {
-          const imageData = reader.result; // Base64 encoded image
-
-          try {
-            const result = await client.predict("/predict", [imageData]);
-
-            const label = result.data[0];
-
-            // Display the uploaded image and result
-            document.getElementById('uploaded_image').src = imageData;
-            document.getElementById('uploaded_image').style.display = 'block';
-            document.getElementById('result_label').textContent = label || "No result";
-          } catch (error) {
-            console.error("Error during prediction:", error);
-          }
-        };
-
-        reader.readAsDataURL(file); // Trigger FileReader
-      }
-
-      function read() {
-        const fileInput = document.getElementById('file_input');
-        const file = fileInput.files[0];
-
+      document.getElementById('file_input').addEventListener('input', async function () {
+        const file = this.files[0];
         if (file) {
-          loaded(file); // Process the selected file
-        } else {
-          console.error("No file selected");
-        }
-      }
+          const reader = new FileReader();
+          reader.onloadend = async function () {
+            const imageData = reader.result; // Base64 encoded image
+            try {
+              const result = await client.predict("/predict", [imageData]);
+              const label = result.data[0];
 
-      document.getElementById('file_input').addEventListener('input', read);
+              // Update UI with the image and result
+              document.getElementById('uploaded_image').src = imageData;
+              document.getElementById('uploaded_image').style.display = 'block';
+              document.getElementById('result_label').textContent = label || "No result";
+            } catch (error) {
+              console.error("Error during prediction:", error);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
     });
   </script>
 </body>
 
 </html>
+
 
 
 
