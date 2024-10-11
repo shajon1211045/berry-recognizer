@@ -79,50 +79,53 @@
   </div>
 
   <!-- Include Gradio client from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
-  
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
+
   <script type="text/javascript">
-    const client = new gr.Client("shajon/berry-recogniser");
+    document.addEventListener("DOMContentLoaded", function () {
+      const client = new gr.Client("shajon/berry-recogniser");
 
-    async function loaded(file) {
-      const reader = new FileReader();
+      async function loaded(file) {
+        const reader = new FileReader();
 
-      reader.onloadend = async function () {
-        const imageData = reader.result; // Base64 URL for display
+        reader.onloadend = async function () {
+          const imageData = reader.result; // Base64 encoded image
 
-        try {
-          const result = await client.predict("/predict", [imageData]); // Send base64 data to model
+          try {
+            const result = await client.predict("/predict", [imageData]);
 
-          const label = result.data[0]; // Access the label directly
-          
-          // Display the uploaded image and result
-          document.getElementById('uploaded_image').src = imageData; // Base64 URL for display
-          document.getElementById('uploaded_image').style.display = 'block';
-          document.getElementById('result_label').textContent = label || "No result";
-        } catch (error) {
-          console.error("Error during prediction:", error); // Log any error
-        }
-      };
+            const label = result.data[0];
 
-      reader.readAsDataURL(file); // Trigger FileReader
-    }
+            // Display the uploaded image and result
+            document.getElementById('uploaded_image').src = imageData;
+            document.getElementById('uploaded_image').style.display = 'block';
+            document.getElementById('result_label').textContent = label || "No result";
+          } catch (error) {
+            console.error("Error during prediction:", error);
+          }
+        };
 
-    function read() {
-      const fileInput = document.getElementById('file_input');
-      const file = fileInput.files[0];
-
-      if (file) {
-        loaded(file); // Process the selected file
-      } else {
-        console.error("No file selected"); // Error if no file is selected
+        reader.readAsDataURL(file); // Trigger FileReader
       }
-    }
 
-    document.getElementById('file_input').addEventListener('input', read);
+      function read() {
+        const fileInput = document.getElementById('file_input');
+        const file = fileInput.files[0];
+
+        if (file) {
+          loaded(file); // Process the selected file
+        } else {
+          console.error("No file selected");
+        }
+      }
+
+      document.getElementById('file_input').addEventListener('input', read);
+    });
   </script>
 </body>
 
 </html>
+
 
 
 
