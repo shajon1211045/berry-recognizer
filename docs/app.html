@@ -10,8 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -79,11 +78,11 @@
     </div>
   </div>
 
-  <script type="module">
-    // Load Gradio client from the local file
-    import { Client } from './js/gradio-client.min.js'; // Adjust the path as needed
-
-    const client = new Client("shajon/berry-recogniser");
+  <!-- Include Gradio client from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
+  
+  <script type="text/javascript">
+    const client = new gr.Client("shajon/berry-recogniser");
 
     async function loaded(file) {
       const reader = new FileReader();
@@ -92,9 +91,7 @@
         const imageBlob = await fetch(reader.result).then(res => res.blob()); // Convert base64 to Blob
 
         try {
-          const result = await client.predict("/predict", { 
-            image_data: imageBlob, 
-          });
+          const result = await client.predict("/predict", [imageBlob]); // Send imageBlob to model
 
           const label = result.data[0]; // Access the label directly
           
@@ -115,7 +112,6 @@
       const file = fileInput.files[0];
 
       if (file) {
-        console.log("File selected:", file); // Debugging log
         loaded(file); // Process the selected file
       } else {
         console.error("No file selected"); // Error if no file is selected
@@ -127,6 +123,7 @@
 </body>
 
 </html>
+
 
 
 
