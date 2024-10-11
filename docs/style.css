@@ -69,9 +69,6 @@ header {
 /* Hero Section */
 .hero-section {
   height: 100vh; /* Fullscreen height */
-  background-image: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e');
-  background-size: cover; /* Cover background */
-  background-position: center; /* Center background */
   display: flex; /* Flexbox for centering */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
@@ -155,6 +152,7 @@ input[type="file"]::file-selector-button:hover {
   color: white; /* White text color */
   text-align: center; /* Centered text */
 }
+
 
 
 
