@@ -1,5 +1,9 @@
 from fastai.vision.all import *
 import gradio as gr
+import requests
+from PIL import Image
+import base64
+import io
 
 # Label list
 labels = (
@@ -16,26 +20,46 @@ labels = (
 )
 
 # Load the model
-model = load_learner("D:\\berry_Type_recognizer\\models\\berry-recognizer-v2.pkl")
+model = load_learner("berry-recogniser-v2.pkl")
 
 # Define the prediction function
-def recognize_image(image):
-    pred, idx, probs = model.predict(image)
-    return dict(zip(labels, map(float, probs)))
+def recognize_image(image_data):
+    try:
+        # Ensure the image_data is a base64-encoded string
+        if isinstance(image_data, str):
+            image_data = image_data.split(",")[1]  # Remove the base64 header
+            image = Image.open(io.BytesIO(base64.b64decode(image_data)))
+        elif isinstance(image_data, Image.Image):
+            # If the image is already a PIL image, use it directly
+            image = image_data
+        else:
+            raise ValueError("Invalid image data format. Expected base64-encoded string or PIL Image.")
 
-# Set up Gradio interface (removed shape and added 'type' for image)
-image = gr.Image(type="pil")  # 'pil' refers to PIL image format, which is compatible with fastai
+        # Make predictions using the model
+        pred, idx, probs = model.predict(image)
+
+        # Return predictions in the desired format
+        return {labels[i]: float(probs[i]) for i in range(len(labels))}
+    
+    except Exception as e:
+        return {"error": str(e)}
+
+# Set up Gradio interface
+image = gr.Image(type="pil")
 label = gr.Label(num_top_classes=10)
 
+# Update example paths 
 examples = [
-    "D:\\berry_Type_recognizer\\test images\\test_image_01.jpg",
-    "D:\\berry_Type_recognizer\\test images\\test_image_02.jpg",
-    "D:\\berry_Type_recognizer\\test images\\test_image_03.jpg",
-    "D:\\berry_Type_recognizer\\test images\\test_image_04.jpg",
-    "D:\\berry_Type_recognizer\\test images\\test_image_05.jpg"
+    "test_image_01.jpg",
+    "test_image_02.jpg",
+    "test_image_03.jpg",
+    "test_image_04.jpg",
+    "test_image_05.jpg"
 ]
 
+# Create Gradio interface
 iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
-iface.launch(share=True)
+iface.launch()
+
 
 
