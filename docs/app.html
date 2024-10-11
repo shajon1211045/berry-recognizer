@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Berry Recognizer</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
   <style>
@@ -14,20 +15,24 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f0f4f8; /* Fallback color */
-      color: #333; /* Dark gray text color */
-      background-image: url('https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg');
-      background-size: cover; /* Ensure the image covers the whole area */
-      background-position: center; /* Center the background image */
     }
 
-    /* Glassy Effect */
+    .background-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
     .glassy {
       background: rgba(255, 255, 255, 0.12);
       border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(2.2px);
+      -webkit-backdrop-filter: blur(2.2px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
@@ -40,95 +45,37 @@
       height: auto;
       display: block;
     }
-
-    /* Centering Content */
-    .content {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: center;
-      color: white;
-    }
-
-    h1 {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    /* File Input */
-    input[type="file"] {
-      width: 25vw;
-      margin-top: 5%;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      border: 1px solid #ccc;
-      background-color: #f8f8f8;
-      cursor: pointer;
-    }
-
-    /* Results Section */
-    .hero {
-      height: 60vh;
-      width: 60vw;
-      margin: 1rem auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .result-card {
-      width: 50%;
-      height: 37vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .result-card h1 {
-      font-size: 3rem;
-      font-weight: bold;
-    }
-
-    /* Button Styling */
-    .btn {
-      padding: 0.5rem 1rem;
-      border: 1px solid #007bff;
-      background-color: transparent;
-      color: #007bff;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #007bff;
-      color: white;
-    }
   </style>
 </head>
 
 <body>
-  <!-- Content -->
-  <div class="content">
-    <h1>Welcome to the Berry Recognizer Web App</h1>
+  <!-- Background Image -->
+  <img src="https://i.ibb.co/RpnmbDq/Leonardo-Phoenix-A-vibrant-and-colorful-webpage-background-ima-3.jpg" alt="Full Screen Background" class="background-image">
 
-    <div class="recognizer">
+  <!-- Content -->
+  <div class="absolute top-0 text-white w-[100%] space-y-4">
+    <div class="home">
+      <h1 class="text-center text-2xl font-bold">Welcome to the Berry Recognizer Web App</h1>
+    </div>
+
+    <div class="recognizer text-center">
       <!-- File Input -->
-      <input id="file_input" type="file" accept="image/*">
+      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" accept="image/*">
 
       <!-- Results Section -->
-      <div class="hero">
-        <div class="result-card glassy">
-          <img id="uploaded_image" src="" alt="Uploaded Image" style="display:none;">
-        </div>
-        <div class="result-card glassy">
-          <h1 id="result_label">Berry Type</h1>
+      <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto">
+        <div class="hero-content flex-col lg:flex-row gap-10" id="results">
+          <div class="w-[50%] h-full glassy p-4">
+            <img id="uploaded_image" src="" alt="Uploaded Image" style="display:none;">
+          </div>
+          <div class="w-[50%] glassy h-[37vh]">
+            <h1 id="result_label" class="text-3xl font-bold mt-[23%]">Berry Type</h1>
+          </div>
         </div>
       </div>
 
       <!-- Back Button -->
-      <a href="index.html" class="btn">Back</a>
+      <a href="index.html" class="btn btn-outline btn-accent mt-3">Back</a>
     </div>
   </div>
 
@@ -148,16 +95,14 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              "data": {
-                "image": `data:image/jpeg;base64,${imageBase64}`
-              }
+              "image": `data:image/jpeg;base64,${imageBase64}` // Corrected string interpolation
             })
           });
 
           const result = await response.json();
           console.log("Prediction Result:", result); // Log the result
           const label = result[0]?.label; // Get the label from the response
-
+          
           // Display the uploaded image and result
           document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
           document.getElementById('uploaded_image').style.display = 'block';
@@ -187,6 +132,7 @@
 </body>
 
 </html>
+
 
 
 
