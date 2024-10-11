@@ -82,7 +82,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
   
   <script type="text/javascript">
-    const client = new gr.Client("shajon/berry-recogniser"); // Updated to use the correct client instantiation
+    const client = new gradio.Client("shajon/berry-recogniser"); // Updated to use the correct client instantiation
 
     async function loaded(file) {
       const reader = new FileReader();
