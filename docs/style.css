@@ -1,3 +1,7 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* General resets and font settings */
 * {
   margin: 0;
@@ -10,153 +14,102 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #f0f0f0;
-  color: #2c2c2c;
+  @apply bg-gray-200; /* Tailwind utility for background color */
+  @apply text-gray-800; /* Tailwind utility for text color */
 }
 
 /* Fullscreen background image */
 .background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1; /* Ensure the image is behind all other content */
+  @apply absolute top-0 left-0 w-full h-screen object-cover z-[-1]; /* Tailwind utility classes */
 }
 
 body {
-  padding-top: 60px; /* Added padding to avoid overlap with fixed header */
+  @apply pt-16; /* Added padding to avoid overlap with fixed header */
 }
 
 /* Header Styling */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px;
-  background-color: #1e3a8a; /* Deep blue for berry theme */
-  z-index: 1000;
+  @apply fixed top-0 left-0 w-full p-4 bg-blue-800 z-50; /* Tailwind utility for background color */
 }
 
 .navbar .logo {
-  color: #f5f5f5;
-  font-weight: 700;
-  font-size: 2rem;
+  @apply text-white font-bold text-2xl; /* Tailwind utility for text color */
 }
 
 .navbar .logo span {
-  color: #e11d48; /* Rich berry color */
+  @apply text-pink-600; /* Tailwind utility for text color */
 }
 
 .navbar ul {
-  display: flex;
-  list-style: none;
+  @apply flex list-none; /* Tailwind utility for flexbox and no list styles */
 }
 
 .navbar ul li a {
-  color: #f5f5f5;
-  text-decoration: none;
-  padding: 8px 18px;
-  font-weight: 400;
+  @apply text-white no-underline py-2 px-4 font-normal; /* Tailwind utility for text color */
 }
 
 .navbar ul li a:hover {
-  color: #e11d48; /* Berry color on hover */
+  @apply text-pink-600; /* Tailwind utility for hover color */
 }
 
 /* Hero Section */
 .hero-section {
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e') no-repeat center center/cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px;
+  @apply h-screen bg-cover bg-center flex items-center justify-center px-5; /* Tailwind utilities */
+  background-image: url('https://images.unsplash.com/photo-1567290324814-9db91e6b1d7e');
 }
 
 .hero-section .content {
-  max-width: 650px;
-  text-align: center;
-  color: #f5f5f5;
+  @apply max-w-[650px] text-center text-white; /* Tailwind utility for text color */
 }
 
 .hero-section .content h2 {
-  font-size: 2.8rem;
-  line-height: 1.3;
+  @apply text-4xl leading-tight; /* Tailwind utility for font size */
 }
 
 .hero-section .content p {
-  margin: 18px 0;
-  font-weight: 300;
+  @apply my-4 font-light; /* Tailwind utility for margin and font weight */
 }
 
 .hero-section .content button {
-  background-color: #e11d48; /* Berry-inspired button color */
-  color: #ffffff;
-  padding: 10px 28px;
-  border: none;
-  font-size: 0.95rem;
-  border-radius: 5px;
-  margin-top: 18px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
+  @apply bg-pink-600 text-white py-2 px-7 rounded-md mt-4 font-medium transition-colors duration-300; /* Tailwind utilities */
 }
 
 .hero-section .content button:hover {
-  background-color: #b91c1c; /* Darker berry shade for hover */
+  @apply bg-red-700; /* Tailwind utility for hover background color */
 }
 
 /* Glassy Effect */
 .glassy {
-  background: rgba(240, 240, 240, 0.2);
-  border-radius: 10px;
-  box-shadow: 0 3px 25px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(200, 200, 200, 0.4);
+  @apply bg-gray-200/20 rounded-lg shadow-lg backdrop-blur-sm border border-gray-200/40; /* Tailwind utilities */
 }
 
 /* File Input Styling */
 input[type="file"] {
-  color: #2c2c2c;
-  padding: 10px;
-  margin: 18px 0;
-  border-radius: 6px;
-  background-color: #444;
-  border: none;
+  @apply text-gray-800 py-2 px-3 my-4 rounded-md bg-gray-800 border-none; /* Tailwind utilities */
 }
 
 input[type="file"]::file-selector-button {
-  background-color: #e11d48; /* Berry-inspired button color */
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  @apply bg-pink-600 text-white border-none py-2 px-4 rounded-md; /* Tailwind utilities */
 }
 
 input[type="file"]::file-selector-button:hover {
-  background-color: #b91c1c; /* Darker berry shade for hover */
+  @apply bg-red-700; /* Tailwind utility for hover background color */
 }
 
 /* Utility Styles for Result Section */
 #results {
-  display: flex;
-  gap: 10px;
+  @apply flex gap-2; /* Tailwind utility for gap */
 }
 
 #results img {
-  max-width: 100%;
-  border-radius: 10px;
+  @apply max-w-full rounded-lg; /* Tailwind utility for rounding */
 }
 
 #results h1 {
-  font-size: 2rem;
-  color: #ffffff;
-  text-align: center;
+  @apply text-3xl text-white text-center; /* Tailwind utility for text size and color */
 }
+
+
 
 
 
