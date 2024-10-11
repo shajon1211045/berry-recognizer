@@ -94,7 +94,9 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              "image": `data:image/jpeg;base64,${imageBase64}` // Send base64 encoded image
+              "data": { // Wrap the image in the "data" field
+                "image": `data:image/jpeg;base64,${imageBase64}`
+              }
             })
           });
 
@@ -131,6 +133,7 @@
 </body>
 
 </html>
+
 
 
 
