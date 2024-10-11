@@ -95,18 +95,18 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              "image": `data:image/jpeg;base64,${imageBase64}` // Corrected string interpolation
+              "data": [`data:image/jpeg;base64,${imageBase64}`] // Use the correct data structure for your API
             })
           });
 
           const result = await response.json();
           console.log("Prediction Result:", result); // Log the result
-          const label = result[0]?.label; // Get the label from the response
+          const label = result?.data[0]?.label || "No result"; // Adjust to your API's response structure
           
           // Display the uploaded image and result
           document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
           document.getElementById('uploaded_image').style.display = 'block';
-          document.getElementById('result_label').textContent = label || "No result";
+          document.getElementById('result_label').textContent = label; // Show prediction label
         } catch (error) {
           console.error("Error during prediction:", error); // Log any error
         }
@@ -132,6 +132,7 @@
 </body>
 
 </html>
+
 
 
 
