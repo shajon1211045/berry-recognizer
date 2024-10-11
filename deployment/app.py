@@ -34,6 +34,10 @@ def recognize_image(image_data):
             image = image_data
         else:
             raise ValueError("Invalid image data format. Expected base64-encoded string or PIL Image.")
+        
+        # Convert the image to RGB if it isn't already
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
 
         # Make predictions using the model
         pred, idx, probs = model.predict(image)
@@ -60,6 +64,7 @@ examples = [
 # Create Gradio interface
 iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
 iface.launch()
+
 
 
 
