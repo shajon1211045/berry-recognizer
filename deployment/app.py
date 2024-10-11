@@ -27,10 +27,10 @@ def recognize_image(image_data):
     try:
         # Ensure the image_data is a base64-encoded string
         if isinstance(image_data, str):
-            image_data = image_data.split(",")[1]  # Remove the base64 header
+            # Extract the base64 string from the data URL format
+            image_data = image_data.split(",")[1]
             image = Image.open(io.BytesIO(base64.b64decode(image_data)))
         elif isinstance(image_data, Image.Image):
-            # If the image is already a PIL image, use it directly
             image = image_data
         else:
             raise ValueError("Invalid image data format. Expected base64-encoded string or PIL Image.")
@@ -42,8 +42,9 @@ def recognize_image(image_data):
         # Make predictions using the model
         pred, idx, probs = model.predict(image)
 
-        # Return predictions in the desired format
-        return {labels[i]: float(probs[i]) for i in range(len(labels))}
+        # Return the label of the top prediction and its probability
+        top_label = labels[idx]
+        return {"label": top_label, "probability": float(probs[idx])}
     
     except Exception as e:
         return {"error": str(e)}
@@ -64,6 +65,7 @@ examples = [
 # Create Gradio interface
 iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
 iface.launch()
+
 
 
 
