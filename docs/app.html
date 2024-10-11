@@ -82,27 +82,30 @@
   <script type="module">
     import { Client } from "@gradio/client";
 
-    const client = await Client.connect("shajon/berry-recogniser");
+    const client = new Client("shajon/berry-recogniser");
 
     async function loaded(file) {
       const reader = new FileReader();
 
       reader.onloadend = async function () {
-        const imageBlob = await fetch(reader.result).then(res => res.blob()); // Convert base64 to Blob
+        const imageData = reader.result; // This will be the base64 string of the image
 
         try {
-          const result = await client.predict("/predict", { 
-            image_data: imageBlob, 
-          });
+          const result = await client.predict(
+            { image_data: imageData }, // Pass the base64 string as image_data
+            { api_name: "/predict" } // Specify the API endpoint
+          );
 
-          const label = result.data[0]; // Access the label directly
-          
+          // Access the result
+          const label = result.label; // Get the label from the result
+
           // Display the uploaded image and result
-          document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
+          document.getElementById('uploaded_image').src = imageData; // Base64 URL for display
           document.getElementById('uploaded_image').style.display = 'block';
           document.getElementById('result_label').textContent = label || "No result";
         } catch (error) {
           console.error("Error during prediction:", error); // Log any error
+          document.getElementById('result_label').textContent = "Error during prediction"; // Show error message
         }
       };
 
@@ -126,6 +129,7 @@
 </body>
 
 </html>
+
 
 
 
