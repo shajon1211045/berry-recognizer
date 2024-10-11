@@ -88,15 +88,15 @@
       const reader = new FileReader();
 
       reader.onloadend = async function () {
-        const imageBlob = await fetch(reader.result).then(res => res.blob()); // Convert base64 to Blob
+        const imageData = reader.result; // Base64 URL for display
 
         try {
-          const result = await client.predict("/predict", [imageBlob]); // Send imageBlob to model
+          const result = await client.predict("/predict", [imageData]); // Send base64 data to model
 
           const label = result.data[0]; // Access the label directly
           
           // Display the uploaded image and result
-          document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
+          document.getElementById('uploaded_image').src = imageData; // Base64 URL for display
           document.getElementById('uploaded_image').style.display = 'block';
           document.getElementById('result_label').textContent = label || "No result";
         } catch (error) {
@@ -123,6 +123,7 @@
 </body>
 
 </html>
+
 
 
 
