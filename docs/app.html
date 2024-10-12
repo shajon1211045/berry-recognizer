@@ -78,37 +78,35 @@
     </div>
   </div>
 
-  <!-- Use fetch for prediction instead of gradio client -->
+  <!-- Include Gradio client from CDN -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
+  
   <script type="text/javascript">
+    const client = new gradio.Client("shajon/berry-recogniser");
+
     async function loaded(file) {
       const reader = new FileReader();
 
       reader.onloadend = async function () {
-        const imageBlob = await fetch(reader.result).then(res => res.blob()); // Convert base64 to Blob
+        const imageBlob = await fetch(reader.result).then(res => res.blob());
 
         try {
-          const formData = new FormData();
-          formData.append("data", imageBlob); // Send imageBlob as form data
-
-          // Call the Hugging Face API directly using fetch
-          const response = await fetch("https://shajon-berry-recogniser.hf.space/api/predict/", {
-            method: "POST",
-            body: formData
-          });
+          const result = await client.predict("/predict", [imageBlob]);
+          const label = result.label || "No result";
           
-          const result = await response.json();
-          const label = result.data[0] || "No result"; // Handle potential absence of label
-          
-          // Display the uploaded image and result
-          document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
+          document.getElementById('uploaded_image').src = reader.result;
           document.getElementById('uploaded_image').style.display = 'block';
           document.getElementById('result_label').textContent = label; 
         } catch (error) {
-          console.error("Error during prediction:", error); // Log any error
+          console.error("Error during prediction:", error);
+          if (error.response) {
+            const errorText = await error.response.text();
+            console.error("Server responded with:", errorText);
+          }
         }
       };
 
-      reader.readAsDataURL(file); // Trigger FileReader
+      reader.readAsDataURL(file);
     }
 
     function read() {
@@ -116,9 +114,9 @@
       const file = fileInput.files[0];
 
       if (file) {
-        loaded(file); // Process the selected file
+        loaded(file);
       } else {
-        console.error("No file selected"); // Error if no file is selected
+        console.error("No file selected");
       }
     }
 
@@ -127,6 +125,7 @@
 </body>
 
 </html>
+
 
 
 
