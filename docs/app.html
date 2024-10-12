@@ -78,12 +78,8 @@
     </div>
   </div>
 
-  <!-- Include Gradio client from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@gradio/client@0.0.18/dist/index.min.js"></script>
-  
+  <!-- Use fetch for prediction instead of gradio client -->
   <script type="text/javascript">
-    const client = new gr.Client("shajon/berry-recogniser"); // Changed to gr.Client
-
     async function loaded(file) {
       const reader = new FileReader();
 
@@ -91,7 +87,16 @@
         const imageBlob = await fetch(reader.result).then(res => res.blob()); // Convert base64 to Blob
 
         try {
-          const result = await client.predict("/predict", [imageBlob]); // Send imageBlob to model
+          const formData = new FormData();
+          formData.append("data", imageBlob); // Send imageBlob as form data
+
+          // Call the Hugging Face API directly using fetch
+          const response = await fetch("https://shajon-berry-recogniser.hf.space/api/predict/", {
+            method: "POST",
+            body: formData
+          });
+          
+          const result = await response.json();
           const label = result.data[0] || "No result"; // Handle potential absence of label
           
           // Display the uploaded image and result
@@ -122,6 +127,7 @@
 </body>
 
 </html>
+
 
 
 
