@@ -79,12 +79,10 @@
   </div>
 
   <!-- Include Gradio client from CDN -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@gradio/client@0.0.18/dist/index.min.js"></script>
   
   <script type="text/javascript">
-    import { Client } from "@gradio/client"; // Import the Client directly
-
-    const client = new Client("shajon/berry-recogniser"); // Use the imported Client
+    const client = new gradio.Client("shajon/berry-recogniser");
 
     async function loaded(file) {
       const reader = new FileReader();
@@ -94,7 +92,7 @@
 
         try {
           const result = await client.predict("/predict", [imageBlob]); // Send imageBlob to model
-          const label = result.label || "No result"; // Handle potential absence of label
+          const label = result.data[0] || "No result"; // Handle potential absence of label
           
           // Display the uploaded image and result
           document.getElementById('uploaded_image').src = reader.result; // Base64 URL for display
@@ -124,6 +122,7 @@
 </body>
 
 </html>
+
 
 
 
