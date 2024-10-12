@@ -4,11 +4,10 @@ import requests
 from PIL import Image
 import base64
 import io
-from pathlib import Path, PosixPath
+from pathlib import Path
 import torch
-import pickle
 
-# Label list
+# Label list 
 labels = (
     'Blueberry',
     'Cranberry',
@@ -31,10 +30,10 @@ def recognize_image(image_data):
         # Ensure image_data is a base64-encoded string
         if isinstance(image_data, str):
             image_data = image_data.split(",")[1]  # Remove the base64 header
-            image = Image.open(io.BytesIO(base64.b64decode(image_data)))
+            image = Image.open(io.BytesIO(base64.b64decode(image_data))).convert("RGB")
         elif isinstance(image_data, Image.Image):
             # If the image is already a PIL image, use it directly
-            image = image_data
+            image = image_data.convert("RGB")  # Convert to RGB if not already
         else:
             raise ValueError("Invalid image data format. Expected base64-encoded string or PIL Image.")
 
@@ -60,9 +59,10 @@ examples = [
     "test_image_05.jpg"
 ]
 
-# Create Gradio interface
+# Create Gradio interface 
 iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
 iface.launch()
+
 
 
 
