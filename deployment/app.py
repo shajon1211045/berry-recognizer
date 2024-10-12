@@ -1,13 +1,10 @@
 from fastai.vision.all import *
 import gradio as gr
-import requests
-from PIL import Image
 import base64
 import io
-from pathlib import Path
-import torch
+from PIL import Image
 
-# Label list 
+# Label list
 labels = (
     'Blueberry',
     'Cranberry',
@@ -27,15 +24,18 @@ model = load_learner('berry-recogniser.pkl')
 # Define the prediction function
 def recognize_image(image_data):
     try:
-        # Ensure image_data is a base64-encoded string
+        # Ensure image_data is a base64-encoded string or PIL Image
         if isinstance(image_data, str):
-            image_data = image_data.split(",")[1]  # Remove the base64 header
-            image = Image.open(io.BytesIO(base64.b64decode(image_data))).convert("RGB")
+            # Split the base64 string and decode
+            try:
+                image_data = image_data.split(",")[1]  # Remove the base64 header
+                image = Image.open(io.BytesIO(base64.b64decode(image_data))).convert("RGB")
+            except Exception as e:
+                return {"error": f"Base64 decoding error: {str(e)}"}
         elif isinstance(image_data, Image.Image):
-            # If the image is already a PIL image, use it directly
-            image = image_data.convert("RGB")  # Convert to RGB if not already
+            image = image_data.convert("RGB")  # Ensure it's in RGB format
         else:
-            raise ValueError("Invalid image data format. Expected base64-encoded string or PIL Image.")
+            return {"error": "Invalid image data format. Expected base64-encoded string or PIL Image."}
 
         # Make predictions using the model
         pred, idx, probs = model.predict(image)
@@ -44,13 +44,13 @@ def recognize_image(image_data):
         return {labels[i]: float(probs[i]) for i in range(len(labels))}
     
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": f"Prediction error: {str(e)}"}
 
 # Set up Gradio interface
 image = gr.Image(type="pil")
 label = gr.Label(num_top_classes=10)
 
-# Update example paths
+# Example image paths
 examples = [
     "test_image_01.jpg",
     "test_image_02.jpg",
@@ -59,9 +59,10 @@ examples = [
     "test_image_05.jpg"
 ]
 
-# Create Gradio interface 
+# Create Gradio interface
 iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
 iface.launch()
+
 
 
 
