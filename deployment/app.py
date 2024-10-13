@@ -3,6 +3,11 @@ import gradio as gr
 import base64
 import io
 from PIL import Image
+from fastapi import FastAPI, File, UploadFile
+from starlette.responses import JSONResponse
+
+# Initialize FastAPI
+app = FastAPI()
 
 # Label list
 labels = (
@@ -21,47 +26,28 @@ labels = (
 # Load the model
 model = load_learner('berry-recogniser.pkl')
 
-# Define the prediction function
-def recognize_image(image_data):
+# Prediction function
+@app.post("/predict/")
+async def predict_image(file: UploadFile = File(...)):
     try:
-        # Ensure image_data is a base64-encoded string or PIL Image
-        if isinstance(image_data, str):
-            # Split the base64 string and decode
-            try:
-                image_data = image_data.split(",")[1]  # Remove the base64 header
-                image = Image.open(io.BytesIO(base64.b64decode(image_data))).convert("RGB")
-            except Exception as e:
-                return {"error": f"Base64 decoding error: {str(e)}"}
-        elif isinstance(image_data, Image.Image):
-            image = image_data.convert("RGB")  # Ensure it's in RGB format
-        else:
-            return {"error": "Invalid image data format. Expected base64-encoded string or PIL Image."}
+        # Read the uploaded file
+        image = Image.open(io.BytesIO(await file.read())).convert("RGB")
 
         # Make predictions using the model
         pred, idx, probs = model.predict(image)
 
-        # Return predictions in the desired format
-        return {labels[i]: float(probs[i]) for i in range(len(labels))}
+        # Format the prediction result
+        result = {labels[i]: float(probs[i]) for i in range(len(labels))}
+
+        return JSONResponse(content={"prediction": result})
     
     except Exception as e:
-        return {"error": f"Prediction error: {str(e)}"}
+        return JSONResponse(content={"error": f"Prediction error: {str(e)}"}, status_code=500)
 
-# Set up Gradio interface
-image = gr.Image(type="pil")
-label = gr.Label(num_top_classes=10)
+# Gradio for local testing (optional)
+iface = gr.Interface(fn=predict_image, inputs="image", outputs="label", examples=["test_image_01.jpg", "test_image_02.jpg"])
+iface.launch(server_name="0.0.0.0", server_port=7860)
 
-# Example image paths
-examples = [
-    "test_image_01.jpg",
-    "test_image_02.jpg",
-    "test_image_03.jpg",
-    "test_image_04.jpg",
-    "test_image_05.jpg"
-]
-
-# Create Gradio interface
-iface = gr.Interface(fn=recognize_image, inputs=image, outputs=label, examples=examples)
-iface.launch()
 
 
 

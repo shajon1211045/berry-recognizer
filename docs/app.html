@@ -66,38 +66,31 @@
 
     <script>
         async function loaded(file) {
-            const reader = new FileReader();
+            const formData = new FormData();
+            formData.append("file", file);
 
-            reader.onloadend = async function () {
-                const imageBlob = await fetch(reader.result).then(res => res.blob());
+            try {
+                const response = await fetch("/predict/", {
+                    method: "POST",
+                    body: formData
+                });
 
-                // Prepare FormData for API
-                const formData = new FormData();
-                formData.append("data", imageBlob, "image.jpg");
+                if (response.ok) {
+                    const result = await response.json();
+                    const prediction = result.prediction;
 
-                try {
-                    const response = await fetch("https://shajon-berry-recogniser.hf.space/api/predict/", {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        const label = result.data[0] || "No result"; // Get the label from API response
-
-                        // Display uploaded image and prediction result
-                        document.getElementById('uploaded_image').src = reader.result;
-                        document.getElementById('uploaded_image').style.display = 'block';
-                        document.getElementById('result_label').textContent = label;
-                    } else {
-                        throw new Error("API request failed with status " + response.status);
-                    }
-                } catch (error) {
-                    console.error("Error during prediction:", error);
+                    // Display uploaded image and prediction result
+                    document.getElementById('uploaded_image').src = URL.createObjectURL(file);
+                    document.getElementById('uploaded_image').style.display = 'block';
+                    
+                    const resultLabel = document.getElementById('result_label');
+                    resultLabel.textContent = 'Berry Type Predictions:\n' + JSON.stringify(prediction, null, 2);
+                } else {
+                    throw new Error("API request failed with status " + response.status);
                 }
-            };
-
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error("Error during prediction:", error);
+            }
         }
 
         function read() {
@@ -115,6 +108,7 @@
     </script>
 </body>
 </html>
+
 
 
 
