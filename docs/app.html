@@ -65,59 +65,65 @@
     </div>
 
     <script>
-        // Initialize Gradio client for your specific endpoint
-        const app = await client("https://shajon-berry-recogniser.hf.space/--replicas/us1ey/");
+        async function init() {
+            // Initialize Gradio client for your specific endpoint
+            const app = await client("https://shajon-berry-recogniser.hf.space/--replicas/us1ey/");
 
-        async function loaded(file) {
-            const reader = new FileReader();
+            async function loaded(file) {
+                const reader = new FileReader();
 
-            reader.onloadend = async function () {
-                const imageBlob = await fetch(reader.result).then(res => res.blob());
+                reader.onloadend = async function () {
+                    const imageBlob = await fetch(reader.result).then(res => res.blob());
 
-                // Prepare FormData for API
-                const formData = new FormData();
-                formData.append("data", imageBlob, "image.jpg");
+                    // Prepare FormData for API
+                    const formData = new FormData();
+                    formData.append("data", imageBlob, "image.jpg");
 
-                try {
-                    const response = await fetch(app.endpoint + "/api/predict/", {
-                        method: "POST",
-                        body: formData
-                    });
+                    try {
+                        const response = await fetch(app.endpoint + "/api/predict/", {
+                            method: "POST",
+                            body: formData
+                        });
 
-                    if (response.ok) {
-                        const result = await response.json();
-                        const label = result.data[0] || "No result"; // Get the label from API response
+                        if (response.ok) {
+                            const result = await response.json();
+                            const label = result.data[0] || "No result"; // Get the label from API response
 
-                        // Display uploaded image and prediction result
-                        document.getElementById('uploaded_image').src = reader.result;
-                        document.getElementById('uploaded_image').style.display = 'block';
-                        document.getElementById('result_label').textContent = label;
-                    } else {
-                        throw new Error("API request failed with status " + response.status);
+                            // Display uploaded image and prediction result
+                            document.getElementById('uploaded_image').src = reader.result;
+                            document.getElementById('uploaded_image').style.display = 'block';
+                            document.getElementById('result_label').textContent = label;
+                        } else {
+                            throw new Error("API request failed with status " + response.status);
+                        }
+                    } catch (error) {
+                        console.error("Error during prediction:", error);
                     }
-                } catch (error) {
-                    console.error("Error during prediction:", error);
-                }
-            };
+                };
 
-            reader.readAsDataURL(file);
-        }
-
-        function read() {
-            const fileInput = document.getElementById('file_input');
-            const file = fileInput.files[0];
-
-            if (file) {
-                loaded(file);
-            } else {
-                console.error("No file selected");
+                reader.readAsDataURL(file);
             }
+
+            function read() {
+                const fileInput = document.getElementById('file_input');
+                const file = fileInput.files[0];
+
+                if (file) {
+                    loaded(file);
+                } else {
+                    console.error("No file selected");
+                }
+            }
+
+            document.getElementById('file_input').addEventListener('input', read);
         }
 
-        document.getElementById('file_input').addEventListener('input', read);
+        // Call the init function to set everything up
+        init();
     </script>
 </body>
 </html>
+
 
 
 
