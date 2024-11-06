@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Berry Type Recognizer</title>
+  <title>Sports Activity Recognizer</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
@@ -20,15 +20,17 @@
 </head>
 
 <body class="relative">
-  <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg"
-    alt="" class="w-[100vw] h-[100vh]">
+  <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg" alt=""
+    class="w-[100vw] h-[100vh]">
   <div class="absolute top-0 text-white w-[100%] space-y-4">
     <div class="home">
-      <h1 class="text-center text-2xl font-bold">Welcome to the Berry Type Recognizer Web App</h1>
+      <h1 class="text-center text-2xl font-bold">Welcome to my Sports Activity Recognizer Web App</h1>
     </div>
 
     <div class="recognizer text-center ">
-      <input class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+      <input
+        class="block w-[25vw] mx-auto mt-[5%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        id="file_input" type="file">
 
       <div class="hero h-[60vh] w-[60vw] mt-4 mx-auto ">
         <div class="hero-content flex-col lg:flex-row gap-10" id="results">
@@ -36,44 +38,44 @@
             <img src="https://i.ibb.co/QCpNdQw/blue-designed-grunge-concrete-texture-vintage-background-with-space-text-image.jpg" alt="">
           </div>
           <div class="w-[50%] glassy h-[37vh]">
-            <h1 class="text-3xl font-bold mt-[23%]">Berry Type</h1>
+            <h1 class="text-3xl font-bold mt-[23%]">Label Here</h1>
           </div>
         </div>
       </div>
 
       <a href="index.html" class="btn btn-outline btn-accent mt-3">Back</a>
-      
+
       <script type="module">
         import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
         async function loaded(reader) {
           try {
-            const app = await client("https://shajon-berry-recogniser.hf.space/");
+            const app = await client("https://armanul-sports-activity-recognizer.hf.space/");
             const response = await app.predict("/predict", [reader.result]);
-            const label = response?.data?.[0]?.label || "No result";
+            const label = response['data'][0]['label'] || "No result";
 
-            // Update the result area with the image and label
+            // Update results section
             document.getElementById('results').innerHTML = `
-                <div class="w-[50%] h-[30vh] glassy p-4">
-                    <img src="${reader.result}" alt="Uploaded Image">
-                </div>
-                <div class="w-[50%] glassy h-[30vh]">
-                    <h1 class="text-3xl font-bold mt-[23%]">${label}</h1>
-                </div>`;
+              <div class="w-[50%] h-[30vh] glassy p-4">
+                  <img src="${reader.result}" alt="Uploaded Image">
+              </div>
+              <div class="w-[50%] glassy h-[30vh]">
+                  <h1 class="text-3xl font-bold mt-[23%]">${label}</h1>
+              </div>`;
           } catch (error) {
             console.error("Connection errored out:", error);
             document.getElementById('results').innerHTML = `
-                <div class="w-[100%] text-center glassy p-4">
-                    <h1 class="text-3xl font-bold mt-4 text-red-500">
-                        Error: Unable to connect to the model server. Please try again later.
-                    </h1>
-                </div>`;
+              <div class="w-[100%] text-center glassy p-4">
+                  <h1 class="text-3xl font-bold mt-4 text-red-500">
+                      Error: Unable to connect to the model server. Please try again later.
+                  </h1>
+              </div>`;
           }
         }
 
         function read() {
           const reader = new FileReader();
-          reader.onload = () => loaded(reader);
+          reader.addEventListener('load', () => loaded(reader));
           reader.readAsDataURL(document.getElementById('file_input').files[0]);
         }
 
@@ -84,6 +86,7 @@
 </body>
 
 </html>
+
 
 
 
