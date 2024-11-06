@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/gh/gradio-app/gradio@latest/js/gradio.js"></script>
 
     <style>
         html, body {
@@ -65,49 +64,41 @@
         </div>
     </div>
 
-    <script>
-        async function init() {
-            const client = new gradio.Client("shajon/berry-recogniser");
+    <script type="module">
+        import { client } from "https://cdn.jsdelivr.net/npm/@gradio/client@0.1.4/dist/index.min.js";
 
-            async function loaded(file) {
-                const reader = new FileReader();
-                reader.onloadend = async function () {
-                    const imageBlob = await fetch(reader.result).then(res => res.blob());
-                    const formData = new FormData();
-                    formData.append("data", imageBlob, "image.jpg");
+        async function loaded(reader) {
+            // Initialize Gradio client for your specific endpoint
+            const app = await client("https://shajon-berry-recogniser.hf.space/");
 
-                    try {
-                        const result = await client.predict({
-                            data: formData,
-                            api_name: "/predict"
-                        });
+            // Send the file data to the model endpoint and get the prediction result
+            const response = await app.predict("/predict", [reader.result]);
+            const label = response['data'][0] || "No result"; // Get the label from API response
 
-                        const label = result.data[0] || "No result";
-
-                        document.getElementById('uploaded_image').src = reader.result;
-                        document.getElementById('uploaded_image').style.display = 'block';
-                        document.getElementById('result_label').textContent = label;
-                    } catch (error) {
-                        console.error("Error during prediction:", error);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-
-            function read() {
-                const fileInput = document.getElementById('file_input');
-                const file = fileInput.files[0];
-                if (file) loaded(file);
-                else console.error("No file selected");
-            }
-
-            document.getElementById('file_input').addEventListener('input', read);
+            // Display uploaded image and prediction result
+            document.getElementById('uploaded_image').src = reader.result;
+            document.getElementById('uploaded_image').style.display = 'block';
+            document.getElementById('result_label').textContent = label;
         }
 
-        init();
+        function read() {
+            const fileInput = document.getElementById('file_input');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => loaded(reader);
+                reader.readAsDataURL(file);
+            } else {
+                console.error("No file selected");
+            }
+        }
+
+        document.getElementById('file_input').addEventListener('input', read);
     </script>
 </body>
 </html>
+
 
 
 
