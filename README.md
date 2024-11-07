@@ -57,9 +57,8 @@ To set up and run the project locally, follow these steps:
     pip install -r requirements.txt
     ```
 
-3. Prepare the berry dataset by running the data preparation notebook: [data_preparation.ipynb](notebooks/data_preparation.ipynb).
+3. Prepare the dataset and train the model by running data_prep_and_model_training notebook: [data_preparation.ipynb](notebooks/data_prep_and_model_training.ipynb).
 
-4. Train the model using the dataset by running: [modelTraining_and_dataCleaning.ipynb](notebooks/modelTraining_and_dataCleaning.ipynb).
 
 5. To test the model locally, navigate to the deployment folder and run the app:
 
