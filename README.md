@@ -20,7 +20,7 @@ The goal of this project is to accurately recognize different types of berries. 
 **Data Cleaning:** Cleaning the dataset based on the confusion matrix scores was essential to improving the model's accuracy. Using fastai's `ImageClassifierCleaner`, the dataset was iteratively refined to remove misclassified or irrelevant images, significantly improving the model's performance.
 
 ## Model Deployment
-The final trained model (`berry_recogniser_v2.pkl`) is deployed on Hugging Face Spaces using Gradio for user interaction. The deployment code is available in the `deployment` folder, or you can try it [here](https://huggingface.co/spaces/shajon/berry-recogniser).
+The final trained model (`berry_recogniser_v2.pkl`) is deployed on Hugging Face Spaces using Gradio for user interaction. The deployment code is available in the `deployment` folder, or you can try it [here](https://huggingface.co/spaces/shajon/berry-recogniser/tree/main).
 
 ![Hugging Face Space Deployment](https://via.placeholder.com/858x300)
 
