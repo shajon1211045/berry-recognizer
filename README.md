@@ -20,10 +20,10 @@ The types of berries included are:
 ## Dataset Preparation
 **Data Collection:** Images of different berry types were collected from DuckDuckGo using the label name.<br/>
 **DataLoader:** The data loader was set up using the fastai `DataBlock` API to manage the dataset efficiently.<br/>
-**Data Augmentation:** Fastai's built-in data augmentation capabilities were used to ensure variability, and the details can be found in the `notebooks/data_preparation.ipynb` file.<br/>
+**Data Augmentation:** Fastai's built-in data augmentation capabilities were used to ensure variability, and the details can be found in the `notebooks/data_prep_and_model_training.ipynb` file.<br/>
 
 ## Model Training and Data Cleaning
-**Model Training:** The model was trained using **ResNet50** with transfer learning. The training process included multiple stages, starting with 10 epochs and gradually fine-tuning with 5, 3, and 2 epochs, resulting in a final accuracy of approximately **~98%** and an error rate below **2%**.
+**Model Training:** The model was trained using **ResNet50** with transfer learning. The training process included multiple stages, resulting in a final accuracy of approximately **~88%**.
 
 **Data Cleaning:** Cleaning the dataset based on the confusion matrix scores was essential to improving the model's accuracy. Using fastai's `ImageClassifierCleaner`, the dataset was iteratively refined to remove misclassified or irrelevant images, significantly improving the model's performance.
 
