@@ -37,8 +37,8 @@ The final trained model (`berry_recogniser_v2.pkl`) is deployed on Hugging Face 
 ## API Integration with Website
 A simple, two-page website was created using **HTML, CSS, and JavaScript**, where the model's API is integrated for interactive berry recognition. The site is hosted using GitHub Pages, and the code for the site can be found in the `docs` folder.
 
-<img height ="250" width="1000" alt="github_pages_1" src="https://github.com/user-attachments/assets/57c94277-f6b0-4949-a3aa-80630ebd9582">
-<img height ="250" width="1000" alt="github_pages_2" src="https://github.com/user-attachments/assets/d85ba246-1a89-4fe4-a103-5955f106d38d">
+<img height ="500" width="1000" alt="github_pages_1" src="https://github.com/user-attachments/assets/57c94277-f6b0-4949-a3aa-80630ebd9582">
+<img height ="500" width="1000" alt="github_pages_2" src="https://github.com/user-attachments/assets/d85ba246-1a89-4fe4-a103-5955f106d38d">
 
 ## Get Started
 
