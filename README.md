@@ -18,7 +18,7 @@ The types of berries included are:
 10. **Currants**: Small, round berries that come in black, red, or white varieties.
 
 ## Dataset Preparation
-**Data Collection:** Images of different berry types were collected from various sources online using the berry names as labels.<br/>
+**Data Collection:** Images of different berry types were collected from DuckDuckGo using the label name.<br/>
 **DataLoader:** The data loader was set up using the fastai `DataBlock` API to manage the dataset efficiently.<br/>
 **Data Augmentation:** Fastai's built-in data augmentation capabilities were used to ensure variability, and the details can be found in the `notebooks/data_preparation.ipynb` file.<br/>
 
