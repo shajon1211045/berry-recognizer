@@ -24,7 +24,9 @@ The types of berries included are:
 
 ## Model Training and Data Cleaning
 **Model Training:** The model was trained using **ResNet50** with transfer learning. The training process included multiple stages, resulting in a final accuracy of approximately **~88%**.
+
 <img width="329" alt="model_training" src="https://github.com/user-attachments/assets/297f9821-bf33-4797-868f-1cfb1465d85e">
+
 **Data Cleaning:** Cleaning the dataset based on the confusion matrix scores was essential to improving the model's accuracy. Using fastai's `ImageClassifierCleaner`, the dataset was iteratively refined to remove misclassified or irrelevant images, significantly improving the model's performance.
 
 ## Model Deployment
