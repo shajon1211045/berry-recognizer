@@ -24,13 +24,13 @@ The types of berries included are:
 
 ## Model Training and Data Cleaning
 **Model Training:** The model was trained using **ResNet50** with transfer learning. The training process included multiple stages, resulting in a final accuracy of approximately **~88%**.
-<img width="1105" alt="image" src="https://github.com/user-attachments/assets/3620927a-f219-41c6-ae51-cfbee48efb4e">
+
 **Data Cleaning:** Cleaning the dataset based on the confusion matrix scores was essential to improving the model's accuracy. Using fastai's `ImageClassifierCleaner`, the dataset was iteratively refined to remove misclassified or irrelevant images, significantly improving the model's performance.
 
 ## Model Deployment
 The final trained model (`berry_recogniser_v2.pkl`) is deployed on Hugging Face Spaces using Gradio for user interaction. The deployment code is available in the `deployment` folder, or you can try it [here](https://huggingface.co/spaces/shajon/berry-recogniser/tree/main).
 
-![Hugging Face Space Deployment](https://via.placeholder.com/858x300)
+<img width="1105" alt="image" src="https://github.com/user-attachments/assets/3620927a-f219-41c6-ae51-cfbee48efb4e">
 
 ## API Integration with Website
 A simple, two-page website was created using **HTML, CSS, and JavaScript**, where the model's API is integrated for interactive berry recognition. The site is hosted using GitHub Pages, and the code for the site can be found in the `docs` folder.
