@@ -1,13 +1,21 @@
 # Berry Type Recognizer
-This project utilizes **fastai** and **ResNet50** to build an image recognition model that achieves high accuracy in distinguishing various types of berries. The model is evaluated using **error rate** and **accuracy** and achieves an accuracy of approximately **~98%**. The training dataset contains a diverse collection of berry images to enhance model performance.
+This project utilizes **fastai** and **ResNet50** to build an image recognition model that achieves high accuracy in distinguishing various types of berries. The model is evaluated using **error rate** and **accuracy** and achieves an accuracy of approximately **~88%**. The training dataset contains a diverse collection of berry images to enhance model performance.
 
 ## Goal of the Project
-The goal of this project is to accurately recognize different types of berries. This application could assist in food industry applications or educational tools for berry identification. The types of berries included are as follows:
-1. Strawberry
-2. Raspberry
-3. Blueberry
-4. Blackberry
-5. Cranberry
+The aim of this project is to develop a model that can accurately classify 10 different types of berries. This classifier is intended for applications in agriculture, food industry, and education, helping to identify various berry types by their unique features. 
+
+The types of berries included are:
+
+1. **Strawberry**: Known for its bright red color and seeds on the outer surface.
+2. **Blueberry**: A small, round berry with a deep blue color.
+3. **Raspberry**: Characterized by its red-pink color and clustered drupelets.
+4. **Mulberry**: A cylindrical, dark-colored berry, often purple or black.
+5. **Elderberry**: Small, dark purple to black berries, often used in syrups.
+6. **Cranberry**: A round, red berry, known for its tart flavor.
+7. **Gooseberry**: Typically green or red, with a translucent skin and veins.
+8. **Goji berry or Barberry**: Small, red berries commonly used in traditional medicine.
+9. **Goldenberry**: A bright yellow-orange berry, encased in a papery husk.
+10. **Currants**: Small, round berries that come in black, red, or white varieties.
 
 ## Dataset Preparation
 **Data Collection:** Images of different berry types were collected from various sources online using the berry names as labels.<br/>
